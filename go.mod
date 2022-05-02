@@ -26,6 +26,7 @@ require (
 	github.com/open-telemetry/opentelemetry-collector-contrib/exporter/jaegerexporter v0.50.0
 	github.com/open-telemetry/opentelemetry-collector-contrib/exporter/jaegerthrifthttpexporter v0.50.0
 	github.com/open-telemetry/opentelemetry-collector-contrib/exporter/kafkaexporter v0.50.0
+	github.com/open-telemetry/opentelemetry-collector-contrib/exporter/lmexporter v0.0.0-00010101000000-000000000000
 	github.com/open-telemetry/opentelemetry-collector-contrib/exporter/loadbalancingexporter v0.50.0
 	github.com/open-telemetry/opentelemetry-collector-contrib/exporter/logzioexporter v0.50.0
 	github.com/open-telemetry/opentelemetry-collector-contrib/exporter/lokiexporter v0.50.0
@@ -341,7 +342,6 @@ require (
 	github.com/newrelic/newrelic-telemetry-sdk-go v0.8.1 // indirect
 	github.com/observiq/ctimefmt v1.0.0 // indirect
 	github.com/olivere/elastic v6.2.37+incompatible // indirect
-	github.com/open-telemetry/opentelemetry-collector-contrib/exporter/lmexporter v0.0.0-00010101000000-000000000000 // indirect
 	github.com/open-telemetry/opentelemetry-collector-contrib/extension/observer v0.50.0 // indirect
 	github.com/open-telemetry/opentelemetry-collector-contrib/internal/aws/awsutil v0.50.0 // indirect
 	github.com/open-telemetry/opentelemetry-collector-contrib/internal/aws/containerinsight v0.50.0 // indirect
@@ -442,7 +442,7 @@ require (
 	go.etcd.io/bbolt v1.3.6 // indirect
 	go.mongodb.org/atlas v0.15.0 // indirect
 	go.opencensus.io v0.23.0 // indirect
-	go.opentelemetry.io/collector/model v0.49.0 // indirect
+	go.opentelemetry.io/collector/model v0.50.0 // indirect
 	go.opentelemetry.io/collector/pdata v0.50.0 // indirect
 	go.opentelemetry.io/collector/semconv v0.50.0 // indirect
 	go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc v0.31.0 // indirect
