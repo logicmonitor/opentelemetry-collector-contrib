@@ -1,4 +1,4 @@
-package lmexporter // import "github.com/open-telemetry/opentelemetry-collector-contrib/exporter/lmexporter"
+package logicmonitorexporter // import "github.com/open-telemetry/opentelemetry-collector-contrib/exporter/logicmonitorexporter"
 
 import (
 	"fmt"

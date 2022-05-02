@@ -1,4 +1,4 @@
-package lmexporter
+package logicmonitorexporter
 
 import (
 	"bytes"

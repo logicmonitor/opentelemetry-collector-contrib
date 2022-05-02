@@ -7,7 +7,7 @@ receivers:
       grpc:
 exporters:
   logging:
-  lmexporter:
+  logicmonitor:
     url: "https://<lm_account>.logicmonitor.com/rest"
     apiToken:
       access_id: <lm_access_id>
@@ -17,8 +17,8 @@ service:
     traces:
       receivers: [otlp]
       processors: [nop]
-      exporters: [lmexporter]
+      exporters: [logicmonitor]
     logs:
       receivers: [fluentforward]
       processors: [nop]
-      exporters: [logging,lmexporter]
+      exporters: [logging,logicmonitor]

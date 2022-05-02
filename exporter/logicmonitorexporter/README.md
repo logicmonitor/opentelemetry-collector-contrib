@@ -11,7 +11,7 @@ The following configuration options are supported:
 ## Example
 ```yaml
   exporters:
-    lmexporter:
+    logicmonitor:
       url: "https://example.logicmonitor.com/rest"
       apitoken:
         access_id: "12345"
@@ -21,7 +21,7 @@ Bearer token can alternatively be passed for authorizing ingestion to LM platfor
 
 ```yaml
   exporters:
-    lmexporter:
+    logicmonitor:
       url: "https://example.logicmonitor.com/rest"
       headers:
         Authorization: Bearer <bearer token>

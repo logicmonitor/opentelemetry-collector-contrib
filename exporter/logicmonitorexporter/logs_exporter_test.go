@@ -1,4 +1,4 @@
-package lmexporter
+package logicmonitorexporter
 
 import (
 	"bytes"
@@ -46,7 +46,7 @@ func Test_newLogsExporter(t *testing.T) {
 			"newLMExporter: success",
 			args{
 				config: &Config{
-					ExporterSettings: config.NewExporterSettings(config.NewComponentID("lmexporter")),
+					ExporterSettings: config.NewExporterSettings(config.NewComponentID("logicmonitor")),
 					URL:              "https://test.logicmonitor.com/rest",
 					APIToken:         map[string]string{},
 				},
@@ -180,7 +180,7 @@ func TestPushLogData(t *testing.T) {
 		err := e.PushLogData(test.args.ctx, test.args.lg)
 
 		if err != nil {
-			t.Errorf("lmexporter.PushLogsData() error = %v", err)
+			t.Errorf("logicmonitorexporter.PushLogsData() error = %v", err)
 			return
 		}
 	})
@@ -244,7 +244,7 @@ func TestExport(t *testing.T) {
 		}
 		_, _, err := e.export("test")
 		if err != nil {
-			t.Errorf("lmexporter.PushLogsData() error = %v", err)
+			t.Errorf("logicmonitorexporter.PushLogsData() error = %v", err)
 			return
 		}
 	})
@@ -310,7 +310,7 @@ func TestExport_Timeout(t *testing.T) {
 		}
 		_, _, err := e.export("test")
 		if err == nil {
-			t.Errorf("lmexporter.PushLogsData() error = %v", err)
+			t.Errorf("logicmonitorexporter.PushLogsData() error = %v", err)
 			return
 		}
 	})

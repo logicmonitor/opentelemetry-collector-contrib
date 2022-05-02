@@ -1,13 +1,13 @@
-package lmexporter
+package logicmonitorexporter
 
 import (
-	"testing"
 	"context"
+	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"go.opentelemetry.io/collector/component/componenttest"
 	"go.opentelemetry.io/collector/config"
 	"go.opentelemetry.io/collector/config/configtest"
-	"go.opentelemetry.io/collector/component/componenttest"
 )
 
 // Test that the factory creates the default configuration
@@ -25,13 +25,13 @@ func TestCreateDefaultConfig(t *testing.T) {
 func TestCreateTracesExporter(t *testing.T) {
 	config := &Config{
 		ExporterSettings: config.NewExporterSettings(config.NewComponentID(typeStr)),
-		URL: "http://lm.example.com/api/traces",
+		URL:              "http://lm.example.com/api/traces",
 		Headers: map[string]string{
 			"x-logicmonitor-account": "xyz",
 		},
 		APIToken: map[string]string{
-			"access_id":"rwerw232",
-			"access_key":"ds#$LLFSfDFqwe-+D",
+			"access_id":  "rwerw232",
+			"access_key": "ds#$LLFSfDFqwe-+D",
 		},
 	}
 
@@ -44,13 +44,13 @@ func TestCreateTracesExporter(t *testing.T) {
 func TestCreateLogsExporter(t *testing.T) {
 	config := &Config{
 		ExporterSettings: config.NewExporterSettings(config.NewComponentID(typeStr)),
-		URL: "http://lm.example.com/api/traces",
+		URL:              "http://lm.example.com/api/traces",
 		Headers: map[string]string{
 			"x-logicmonitor-account": "xyz",
 		},
 		APIToken: map[string]string{
-			"access_id":"rwerw232",
-			"access_key":"ds#$LLFSfDFqwe-+D",
+			"access_id":  "rwerw232",
+			"access_key": "ds#$LLFSfDFqwe-+D",
 		},
 	}
 

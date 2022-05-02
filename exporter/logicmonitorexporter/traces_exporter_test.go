@@ -1,4 +1,4 @@
-package lmexporter
+package logicmonitorexporter
 
 import (
 	"context"
@@ -60,7 +60,7 @@ func Test_newTraceExporter(t *testing.T) {
 			"newTracesExporter: success",
 			args{
 				config: &Config{
-					ExporterSettings: config.NewExporterSettings(config.NewComponentID("lmexporter")),
+					ExporterSettings: config.NewExporterSettings(config.NewComponentID("logicmonitor")),
 					APIToken:         map[string]string{},
 				},
 				logger:    zap.NewNop(),

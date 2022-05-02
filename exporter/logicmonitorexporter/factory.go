@@ -1,4 +1,4 @@
-package lmexporter
+package logicmonitorexporter
 
 import (
 	"context"
@@ -8,7 +8,7 @@ import (
 	"go.opentelemetry.io/collector/exporter/exporterhelper"
 )
 
-const typeStr = "lmexporter"
+const typeStr = "logicmonitor"
 
 // NewFactory creates a LogicMonitor exporter factory
 func NewFactory() component.ExporterFactory {
