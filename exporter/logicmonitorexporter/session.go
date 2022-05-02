@@ -154,6 +154,7 @@ func (c *LMhttpClient) MakeRequest(version, method, baseURI, uri, configURL stri
 	if pBytes == nil {
 		pBytes = bytes.NewBuffer(nil)
 	}
+	fmt.Println("Payload :", pBytes.String())
 	req, err = http.NewRequest(method, fullURL, pBytes)
 	if err != nil {
 		return nil, fmt.Errorf("creation of request failed with error %w", err)
