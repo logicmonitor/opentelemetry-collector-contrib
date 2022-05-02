@@ -100,9 +100,8 @@ type APIResponse struct {
 	ContentLength int64
 }
 
-//NewLMHTTPClient Read API key, AccessId, AccessKey settings from env and returns HttpClient Object
-//set env "LOGICMONITOR_ACCOUNT", "LOGICMONITOR_ACCESS_ID/LOGICMONITOR_ACCESS_KEY" pair or LOGICMONITOR_BEARER_KEY
-func NewLMHTTPClient(apitoken, headers map[string]string, needToken bool) HttpClient {
+//NewLMHTTPClient Read API key, AccessId, AccessKey settings from config and returns HttpClient Object
+func NewLMHTTPClient(apitoken, headers map[string]string) HttpClient {
 	var aInfo accountInfo
 	account := os.Getenv("LOGICMONITOR_ACCOUNT")
 	if account == "" {
@@ -112,21 +111,18 @@ func NewLMHTTPClient(apitoken, headers map[string]string, needToken bool) HttpCl
 	accessID, accessKey := "", ""
 	// check if api token is present in config
 	// if not present, then pick bearer token from config
-	if needToken {
-		if apitoken != nil {
-			if val, ok := apitoken["access_id"]; ok {
-				accessID = val
-			}
-			if val, ok := apitoken["access_key"]; ok {
-				accessKey = val
-			}
-			aInfo = lmv1Account{accountName: account, accessID: accessID, accessKey: accessKey}
-		} else if bearerAPI, ok := headers["Authorization"]; ok {
-			aInfo = bearerAccount{accountName: account, key: strings.Split(bearerAPI, " ")[1]}
-		} else {
-			log.Fatal("Kindly provide Access ID/Access Key pair or Bearer token in configuration")
+	if apitoken != nil {
+		if val, ok := apitoken["access_id"]; ok {
+			accessID = val
 		}
+		if val, ok := apitoken["access_key"]; ok {
+			accessKey = val
+		}
+		aInfo = lmv1Account{accountName: account, accessID: accessID, accessKey: accessKey}
+	} else if bearerAPI, ok := headers["Authorization"]; ok {
+		aInfo = bearerAccount{accountName: account, key: strings.Split(bearerAPI, " ")[1]}
 	}
+
 	transport := http.DefaultTransport.(*http.Transport).Clone()
 	transport.TLSClientConfig = &tls.Config{InsecureSkipVerify: false, MinVersion: tls.VersionTLS12}
 	clientTransport := (http.RoundTripper)(transport)
@@ -176,7 +172,9 @@ func (c *LMhttpClient) MakeRequest(version, method, baseURI, uri, configURL stri
 		} else {
 			req.Header.Set("Authorization", c.aInfo.token(method, nil, uri))
 		}
-	}
+	} //else {
+	// 	log.Fatal("Kindly provide Access ID/Access Key pair or Bearer token in configuration")
+	// }
 	for key, value := range headers {
 		req.Header.Set(key, value)
 	}

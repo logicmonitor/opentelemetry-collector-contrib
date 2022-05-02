@@ -296,7 +296,7 @@ func TestNewLMHTTPClient_APItoken(t *testing.T) {
 	apitoken["access_id"] = "GvGs48z52b25L648C3s8"
 	apitoken["access_key"] = "~wfe=5E)Y844[xj}h=xCBPAn]{9mb}3mk_nd4[n["
 
-	if got := NewLMHTTPClient(apitoken, nil, true); got == nil {
+	if got := NewLMHTTPClient(apitoken, nil); got == nil {
 		t.Errorf("Got NewLMHTTPClient() = %v , want `not nil`", got)
 	}
 }
@@ -306,29 +306,10 @@ func TestNewLMHTTPClient_BearerToken(t *testing.T) {
 	os.Setenv("LOGICMONITOR_ACCOUNT", "localdev")
 	headers := make(map[string]string)
 	headers["authorization"] = "Bearer UkpnODZhdWs0V0JZd1V4ODUzUXk6azdRbzFJOHBFWFJSVDBJYXNOamVmUT09"
-	if got := NewLMHTTPClient(nil, headers, true); got == nil {
+	if got := NewLMHTTPClient(nil, headers); got == nil {
 		t.Errorf("Got NewLMHTTPClient() = %v , want `not nil`", got)
 	}
 }
-
-// func TestNewLMHTTPClient_APItoken_ENV(t *testing.T) {
-
-// 	os.Setenv("LOGICMONITOR_ACCESS_ID", "GvGs48z52b25L648C3s8")
-// 	os.Setenv("LOGICMONITOR_ACCESS_KEY", "~wfe=5E)Y844[xj}h=xCBPAn]{9mb}3mk_nd4[n[")
-// 	if got := NewLMHTTPClient(nil, nil, true); got == nil {
-// 		t.Errorf("Got NewLMHTTPClient() = %v , want `not nil`", got)
-// 	}
-// }
-
-// func TestNewLMHTTPClient_Bearertoken_ENV(t *testing.T) {
-
-// 	os.Unsetenv("LOGICMONITOR_ACCESS_ID")
-// 	os.Unsetenv("LOGICMONITOR_ACCESS_KEY")
-// 	os.Setenv("LOGICMONITOR_BEARER_TOKEN", "Bearer UkpnODZhdWs0V0JZd1V4ODUzUXk6azdRbzFJOHBFWFJSVDBJYXNOamVmUT09")
-// 	if got := NewLMHTTPClient(nil, nil, true); got == nil {
-// 		t.Errorf("Got NewLMHTTPClient() = %v , want `not nil`", got)
-// 	}
-// }
 
 func TestLMhttpClient_MakeRequest(t *testing.T) {
 
@@ -446,7 +427,7 @@ func TestLMhttpClient_GetContent(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			hc := NewLMHTTPClient(nil, nil, true)
+			hc := NewLMHTTPClient(nil, nil)
 			_, err := hc.GetContent(tt.args.url)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("LMhttpClient.GetContent() error = %v, wantErr %v", err, tt.wantErr)

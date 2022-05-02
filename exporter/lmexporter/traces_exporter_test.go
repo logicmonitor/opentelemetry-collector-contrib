@@ -29,8 +29,6 @@ var (
 
 	TestSpanEndTime      = time.Date(2020, 2, 11, 20, 26, 13, 789, time.UTC)
 	TestSpanEndTimestamp = pdata.NewTimestampFromTime(TestSpanEndTime)
-	spanEventAttributes  = pdata.NewAttributeMapFromMap(map[string]pdata.AttributeValue{"span-event-attr": pdata.NewAttributeValueString("span-event-attr-val")})
-	resourceAttributes1  = pdata.NewAttributeMapFromMap(map[string]pdata.AttributeValue{"resource-attr": pdata.NewAttributeValueString("resource-attr-val-1")})
 )
 
 type tracesResponse struct {
@@ -467,15 +465,15 @@ func GetAvailableLocalAddress(t *testing.T) string {
 }
 
 func GenerateTracesOneSpan() pdata.Traces {
-	td := GenerateTracesOneEmptyInstrumentationLibrary()
-	rs0ils0 := td.ResourceSpans().At(0).InstrumentationLibrarySpans().At(0)
+	td := GenerateTracesOneEmptyScopeSpan()
+	rs0ils0 := td.ResourceSpans().At(0).ScopeSpans().At(0)
 	fillSpanOne(rs0ils0.Spans().AppendEmpty())
 	return td
 }
 
-func GenerateTracesOneEmptyInstrumentationLibrary() pdata.Traces {
+func GenerateTracesOneEmptyScopeSpan() pdata.Traces {
 	td := GenerateTracesNoLibraries()
-	td.ResourceSpans().At(0).InstrumentationLibrarySpans().AppendEmpty()
+	td.ResourceSpans().At(0).ScopeSpans().AppendEmpty()
 	return td
 }
 
@@ -488,7 +486,7 @@ func GenerateTracesOneEmptyResourceSpans() pdata.Traces {
 func GenerateTracesNoLibraries() pdata.Traces {
 	td := GenerateTracesOneEmptyResourceSpans()
 	rs0 := td.ResourceSpans().At(0)
-	initResource1(rs0.Resource())
+	rs0.Resource().Attributes().UpsertString("service.name", "uop.stage-eu-1")
 	return td
 }
 
@@ -501,7 +499,7 @@ func fillSpanOne(span pdata.Span) {
 	ev0 := evs.AppendEmpty()
 	ev0.SetTimestamp(TestSpanEventTimestamp)
 	ev0.SetName("event-with-attr")
-	initSpanEventAttributes(ev0.Attributes())
+	//initSpanEventAttributes(ev0.Attributes())
 	ev0.SetDroppedAttributesCount(2)
 	ev1 := evs.AppendEmpty()
 	ev1.SetTimestamp(TestSpanEventTimestamp)
@@ -513,14 +511,14 @@ func fillSpanOne(span pdata.Span) {
 	status.SetMessage("status-cancelled")
 }
 
-func initResource1(r pdata.Resource) {
-	initResourceAttributes1(r.Attributes())
-}
-func initResourceAttributes1(dest pdata.AttributeMap) {
-	dest.Clear()
-	resourceAttributes1.CopyTo(dest)
-}
-func initSpanEventAttributes(dest pdata.AttributeMap) {
-	dest.Clear()
-	spanEventAttributes.CopyTo(dest)
-}
+// func initResource1(r pdata.Resource) {
+// 	initResourceAttributes1(r.Attributes())
+// }
+// func initResourceAttributes1(dest pcommon.Map) {
+// 	dest.Clear()
+// 	resourceAttributes1.CopyTo(dest)
+// }
+// func initSpanEventAttributes(dest pcommon.Map) {
+// 	dest.Clear()
+// 	spanEventAttributes.CopyTo(dest)
+// }

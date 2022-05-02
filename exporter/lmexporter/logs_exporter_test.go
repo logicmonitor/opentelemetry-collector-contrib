@@ -18,7 +18,7 @@ import (
 	"go.uber.org/zap"
 )
 
-type logsResponse struct {
+type logResponse struct {
 	Ok      int    `json:"linesOk"`
 	Invalid int    `json:"linesInvalid"`
 	Error   string `json:"error"`
@@ -124,7 +124,7 @@ func TestPushLogData(t *testing.T) {
 
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
-		response := logsResponse{
+		response := logResponse{
 			Ok:      0,
 			Invalid: 0,
 		}
@@ -171,7 +171,7 @@ func TestPushLogData(t *testing.T) {
 
 	t.Run(test.name, func(t *testing.T) {
 
-		e := &exporterImp{
+		e := &logsExporter{
 			logger: test.fields.logger,
 			config: test.fields.config,
 			client: test.fields.client,
@@ -190,7 +190,7 @@ func TestExport(t *testing.T) {
 
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
-		response := logsResponse{
+		response := logResponse{
 			Ok:      0,
 			Invalid: 0,
 		}
@@ -237,7 +237,7 @@ func TestExport(t *testing.T) {
 
 	t.Run(test.name, func(t *testing.T) {
 
-		e := &exporterImp{
+		e := &logsExporter{
 			logger: test.fields.logger,
 			config: test.fields.config,
 			client: test.fields.client,
@@ -254,7 +254,7 @@ func TestExport_Timeout(t *testing.T) {
 
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
-		response := logsResponse{
+		response := logResponse{
 			Ok:      0,
 			Invalid: 0,
 		}
@@ -303,7 +303,7 @@ func TestExport_Timeout(t *testing.T) {
 
 	t.Run(test.name, func(t *testing.T) {
 
-		e := &exporterImp{
+		e := &logsExporter{
 			logger: test.fields.logger,
 			config: test.fields.config,
 			client: test.fields.client,
@@ -318,11 +318,12 @@ func TestExport_Timeout(t *testing.T) {
 
 func createLogData(numberOfLogs int) pdata.Logs {
 	logs := pdata.NewLogs()
-	logs.ResourceLogs().AppendEmpty() // Add an empty ResourceLogs
-	rl := logs.ResourceLogs().AppendEmpty()
-	rl.InstrumentationLibraryLogs().AppendEmpty() // Add an empty InstrumentationLibraryLogs
-	ill := rl.InstrumentationLibraryLogs().AppendEmpty()
+	// logs.ResourceLogs().AppendEmpty() // Add an empty ResourceLogs
+	// rl := logs.ResourceLogs().AppendEmpty()
+	// rl.ScopeLogs().AppendEmpty() // Add an empty ScopeLogs
+	// ill := rl.ScopeLogs().AppendEmpty()
 
+	ill := logs.ResourceLogs().AppendEmpty().ScopeLogs().AppendEmpty()
 	for i := 0; i < numberOfLogs; i++ {
 		ts := pdata.Timestamp(int64(i) * time.Millisecond.Nanoseconds())
 		logRecord := ill.LogRecords().AppendEmpty()

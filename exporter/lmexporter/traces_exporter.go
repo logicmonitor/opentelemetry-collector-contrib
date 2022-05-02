@@ -43,7 +43,7 @@ const (
 // Crete new exporter.
 func newTracesExporter(cfg *Config, logger *zap.Logger, buildInfo component.BuildInfo) (*tracesExporter, error) {
 
-	newClient := NewLMHTTPClient(cfg.APIToken, cfg.Headers, true)
+	newClient := NewLMHTTPClient(cfg.APIToken, cfg.Headers)
 
 	userAgent := fmt.Sprintf("%s/%s (%s/%s)",
 		buildInfo.Description, buildInfo.Version, runtime.GOOS, runtime.GOARCH)
@@ -71,7 +71,7 @@ func (e *tracesExporter) export(ctx context.Context, url string, request []byte)
 	headers := make(map[string]string)
 	headers["Content-Type"] = "application/x-protobuf"
 
-	resp, err := e.client.MakeRequest("3", http.MethodPost, traceBaseURI, traceIngestURI, "", 5*time.Second, bytes.NewBuffer(request), headers)
+	resp, err := e.client.MakeRequest(apiV3, http.MethodPost, traceBaseURI, traceIngestURI, "", 5*time.Second, bytes.NewBuffer(request), headers)
 	if err != nil {
 		return err
 	}
